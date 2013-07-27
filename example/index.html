@@ -1,0 +1,19 @@
+<div style="text-align:center;font-size:48px;color:#999;"> Press the space key !</div>
+<script src="static/libs/seajs/2.0.0/sea-debug.js"></script>
+<script>
+    seajs.config({
+        base : './',
+        alias:{
+            "jquery" : "static/libs/gallery/jquery/1.8.3/jquery.js",
+            "util" : "static/widget/util"
+        },
+        paths : {
+          'widget' : 'static/widget',
+          'page' : 'static/page'
+        },
+        "vars" : {
+          "ht" : "handle-text"
+        }
+    })
+    seajs.use('page/act_hello');
+</script>

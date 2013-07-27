@@ -1,0 +1,28 @@
+<div style="text-align:center;font-size:48px;color:#999;"> Press the space key !</div>
+<script src="assets/sea-modules/seajs/2.0.0/sea-debug.js"></script>
+<script src="assets/sea-modules/gallery/jquery/1.8.3/jquery.js"></script>
+<script>
+    seajs.config({
+        base : '/aragon/hello-spm/',
+        alias:{
+            '$':'assets/sea-modules/gallery/jquery/1.8.3/jquery.js',
+            "util" : "assets/util/src/util"
+        },
+        paths : {
+          'tests' : 'assets/hello/tests'
+        },
+        "vars" : {
+          "ht" : "handle-text"
+        },
+        preload: [
+          'hello/debug/core.js'
+        ]
+    })
+    seajs.use(['$','assets/hello/dist/hello'],function($, Hello){
+         $(document).keypress(function(ev){
+            if(ev.which == 32){
+                new Hello()
+            }
+        })
+    })
+</script>

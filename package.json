@@ -1,0 +1,18 @@
+{
+  "prefix": "static",
+  "target" : "page",
+  
+  "id_format" : "/aragon/hello-spm/assets/hello/dist/{{filename}}",
+
+  "paths" : {
+    "widget" : "static/widget",
+    "page" : "static/page"
+  },
+  "alias" : {
+    "$":"assets/sea-modules/gallery/jquery/1.8.3/jquery.js",
+    "util" : "assets/util/src/util"
+  },
+  "vars" : {
+    "ht" : "handle-text"
+  }
+}
