@@ -11,9 +11,15 @@
           'widget' : 'static/widget',
           'page' : 'static/page'
         },
-        "vars" : {
+        vars : {
           "ht" : "handle-text"
-        }
+        },
+        preload: [
+          'static/debug/core.js'
+        ],
+        map: [
+         location.search.indexOf("debug") === -1 ? [] : [ /page\//i, 'debug/' ]
+        ]
     })
     seajs.use('page/act_hello');
 </script>

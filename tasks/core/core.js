@@ -46,9 +46,10 @@ module.exports = function(grunt) {
         var meta = ast.parseFirst(data);
         var dps = meta.dependencies.map(function(_dp){
           if (_dp.charAt(0) !== '.') {
-            _dp = iduri.relative(f.src, _dp);
+            // node 0.10 path.normalize 参数不能为数组了
+            _dp = iduri.relative(f.src + '', _dp);
           }
-          var _path = path.join(path.dirname(f.src), _dp);
+          var _path = path.join(path.dirname(f.src + ''), _dp);
           _path = iduri.appendext(_path);
           var id = iduri.absolute(meta.id, _dp);
           

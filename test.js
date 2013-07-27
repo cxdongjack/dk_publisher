@@ -1,10 +1,7 @@
 module.exports = function(grunt) {
-  var _origDir = process.cwd();
-  // 切换到gruntfile所在目录载入tasks
-  process.chdir(__dirname);
-  console.log(grunt.file.readJSON('package.json'));
 
   grunt.initConfig({
+    // --base指定目录的package.json
     pkg : grunt.file.readJSON('package.json'),
     base : '<%= pkg.prefix %>',
     transport: {
@@ -13,7 +10,7 @@ module.exports = function(grunt) {
           debug : !1,
           paths : ['.']
       },
-      foo : {
+      target : {
           files: [{
               expand : true,
               cwd : '<%= base %>/<%= pkg.target %>',
@@ -23,6 +20,34 @@ module.exports = function(grunt) {
           }]
       }
     },
+    core : {
+      options : {
+          include : '<%= pkg.core %>'
+        },
+      target : {
+        files: [{
+           expand : true,
+           cwd : '<%= base %>/_build/',
+           src: ['**/*.js'], // Actual pattern(s) to match.
+           dest: '<%= base %>/_core/'   // Destination path prefix.
+        }]
+      }
+    },
+    concat: {
+      page : {
+        files : [{
+           expand : true,
+           cwd : '<%= base %>/_build/',
+           src: ['**/*.js'], // Actual pattern(s) to match.
+           dest: '<%= base %>/debug/'   // Destination path prefix.
+        }]
+      },
+      core : {
+        files: {
+           '<%= base %>/debug/core.js': '<%= base %>/_core/*.js'
+        }
+      },
+    },
     clean : {
       test : {
         src : ['1']
@@ -30,11 +55,18 @@ module.exports = function(grunt) {
     }
   });
 
+  var _origDir = process.cwd();
+  // 切换到gruntfile所在目录载入tasks
+  process.chdir(__dirname);
+
   grunt.loadTasks('tasks/transport');
+  grunt.loadTasks('tasks/core');
+  grunt.loadTasks('tasks/concat');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
   // 切换回原来的工作目录
   process.chdir(_origDir);
   
-  grunt.registerTask('default', ['transport:foo']);  
+  grunt.registerTask('default', ['transport','core','concat:core','concat:page']);  
+  // grunt.registerTask('default', ['transport','concat:page']);  
 }

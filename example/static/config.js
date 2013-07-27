@@ -3,7 +3,7 @@ define(function() {
   var rules = [];
 
   // for seajs.org
-  rules.push([ 'dist', 'debug']);
+  rules.push([ 'page', 'debug']);
 
   // set map rules
   seajs.config({'map': rules});

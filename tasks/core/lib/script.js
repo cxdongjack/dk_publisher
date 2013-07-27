@@ -38,6 +38,7 @@ exports.init = function(grunt) {
     console.log('meta.dependencies ' + JSON.stringify(_deps));
     
     var rv = _deps.map(function(dep) {
+      console.log(dep);
       if (dep.charAt(0) === '.') {
         var _dep = path.normalize(dep).replace(/\\/, '/');
         _dep = iduri.appendext(_dep);
