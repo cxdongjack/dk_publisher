@@ -15,5 +15,7 @@
   "vars" : {
     "ht" : "handle-text"
   },
-  "ignore" : ["jquery", "static/widget/handle-text.js"]
+  "ignore" : ["jquery", "static/widget/handle-text.js"],
+  "include" : ["widget/main.js", "widget/math.js"],
+  "exclude" : ["widget/main.js"]
 }

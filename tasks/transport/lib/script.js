@@ -1,6 +1,8 @@
 exports.init = function(grunt) {
   var path = require('path');
   var ast = require('cmd-util').ast;
+  console.log(1)
+  var util = require('../../util/util.js').init(grunt);
   var iduri = require('cmd-util').iduri;
 
 
@@ -56,69 +58,6 @@ exports.init = function(grunt) {
     // data = astCache.print_to_string(options.uglify);
     // grunt.file.write(dest, data);
   };
-
-
-  // helpers
-  // ----------------
-  
-  /** 
-   * description : transform the relative id to topLevel
-   * 
-   * topLevel id是以Gruntfile所有目录(或--base制定）作为根目录,所得到的的地址
-   * 以该id作为id的前提是,seajs的base路径等同于Gruntfile所有目录,
-   * 否则需要重新设置base 
-   */
-  function id2TopLevel(_id, fpath){
-    // 若为相对路径， 则join
-    if (_id.charAt(0) === '.') {
-      _id = path.join(path.dirname(fpath), _id).replace(/\\/g,'/');
-      // _id = path.relative(path.dirname(fpath), _id);
-      _id = _id.replace(/\.js$/,'');
-    }
-    return _id
-  }
-  
-  var PATHS_RE = /^([^/:]+)(\/.+)$/
-  function parsePaths(id, pkg) {
-    var paths = pkg.paths
-    var m
-  
-    if (paths && (m = id.match(PATHS_RE)) && grunt.util._.isString(paths[m[1]])) {
-      id = paths[m[1]] + m[2]
-    }
-  
-    return id
-  }
-  
-  var VARS_RE = /{([^{]+)}/g
-  function parseVars(id, pkg) {
-    var vars = pkg.vars
-  
-    if (vars && id.indexOf("{") > -1) {
-      id = id.replace(VARS_RE, function(m, key) {
-        return grunt.util._.isString(vars[key]) ? vars[key] : m
-      })
-    }
-  
-    return id
-  }
-
-  // 将id转换成顶级路径，同时此路径也是id
-  function transformId(id, options) {
-    // 如果是相对路径， 则转换为顶级路径
-    if (id.charAt(0) === '.') {
-      // push the absolute id not the origin
-      id = id2TopLevel(id,absolute_id);
-    } else {
-      id = iduri.parseAlias(options.pkg, id);
-      id = parsePaths(id, options.pkg);
-    }
-    id = parseVars(id, options.pkg);
-
-    // 然后加上文件后缀.js
-    if(!(/\.js$/.test(id))) id += '.js';
-    return id;
-  };
   
   /*
    * 取得当前文件所有的依赖
@@ -141,7 +80,7 @@ exports.init = function(grunt) {
     var parsed = ast.parseFirst(data);
     parsed.dependencies.forEach(function(id) {
       
-      id = transformId(id, options);
+      id = util.transformId(id);
       deps.push(id);
       // 递归
       deps = grunt.util._.union(deps, relativeDependencies(id, options));
