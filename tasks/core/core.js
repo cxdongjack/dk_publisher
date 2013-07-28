@@ -40,32 +40,32 @@ module.exports = function(grunt) {
         } else {
           return true;
         }
-      }).map(function(filepath) {
-        // 分析每个文件的依赖, 并以数组形式返回
-        var data = grunt.file.read(filepath);
-        var meta = ast.parseFirst(data);
-        var dps = meta.dependencies.map(function(_dp){
-          if (_dp.charAt(0) !== '.') {
-            // node 0.10 path.normalize 参数不能为数组了
-            _dp = iduri.relative(f.src + '', _dp);
-          }
-          var _path = path.join(path.dirname(f.src + ''), _dp);
-          _path = iduri.appendext(_path);
-          var id = iduri.absolute(meta.id, _dp);
-          
-          if (!grunt.file.exists(_path)) {
-            // 如果让某个文件不被打包,设置alias时,可以让两个名字相同,如 jquery : jquery
-            id = id.replace(/\.js$/, '');
-            if(id !== iduri.parseAlias(pkg, id))
-              grunt.log.warn('depence file "' + _path + '" not found.');
-            return null;
-          } else {
-            _map[_path] = id;
-            return _path;
-          }
-        });
-        return dps;
-      })
+        }).map(function(filepath) {
+          // 分析每个文件的依赖, 并以数组形式返回
+          var data = grunt.file.read(filepath);
+          var meta = ast.parseFirst(data);
+          var dps = meta.dependencies.map(function(_dp){
+            if (_dp.charAt(0) !== '.') {
+              // node 0.10 path.normalize 参数不能为数组了
+              _dp = iduri.relative(f.src + '', _dp);
+            }
+            var _path = path.join(path.dirname(f.src + ''), _dp);
+            _path = iduri.appendext(_path);
+            var id = iduri.absolute(meta.id, _dp);
+            
+            if (!grunt.file.exists(_path)) {
+              // 如果让某个文件不被打包,设置alias时,可以让两个名字相同,如 jquery : jquery
+              id = id.replace(/\.js$/, '');
+              if(id !== iduri.parseAlias(pkg, id))
+                grunt.log.warn('depence file "' + _path + '" not found.');
+              return null;
+            } else {
+              _map[_path] = id;
+              return _path;
+            }
+          });
+          return dps;
+        })
       
       // (当前文件)合并所有的数组层级,并去除无用项,统计每个文件被依赖的次数
       _.compact(_.flatten(_tmp)).forEach(function(_id) {

@@ -1,3 +1,4 @@
+var util = require('./tasks/util/util.js');
 module.exports = function(grunt) {
 
   grunt.initConfig({
