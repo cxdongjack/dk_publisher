@@ -22,7 +22,7 @@ exports.init = function(grunt) {
     var deps = relativeDependencies(fileObj.src, options);
 
     if (deps.length) {
-      grunt.log.writeln('found dependencies ' + deps);
+      grunt.log.writeln('found dependencies ' + deps + '\n');
     } else {
       grunt.log.writeln('found no dependencies');
     }
@@ -108,7 +108,7 @@ exports.init = function(grunt) {
     // 如果是相对路径， 则转换为顶级路径
     if (id.charAt(0) === '.') {
       // push the absolute id not the origin
-      id = id2TopLevel(id,absoulut_id);
+      id = id2TopLevel(id,absolute_id);
     } else {
       id = iduri.parseAlias(options.pkg, id);
       id = parsePaths(id, options.pkg);
@@ -124,19 +124,20 @@ exports.init = function(grunt) {
    * 取得当前文件所有的依赖
    * @param absolute_id {string} 为当前文件path
    */
-  function relativeDependencies(absoulut_id, options) {
-    absoulut_id = iduri.appendext(absoulut_id);
-    // grunt.log.writeln('deal ' + absoulut_id );
+  function relativeDependencies(absolute_id, options) {
+    absolute_id = iduri.appendext(absolute_id);
+    // grunt.log.writeln('deal ' + absolute_id );
 
     var deps = [];
     
-    if (!grunt.file.exists(absoulut_id)) {
-      // 如果让某个文件不被打包,设置alias时,可以让两个名字相同,如 jquery : jquery
-      if(absoulut_id !== iduri.parseAlias(options.pkg, absoulut_id))
-        grunt.log.error(absoulut_id + ' is not\'t exist');
+    if (!grunt.file.exists(absolute_id)) {
+      // 如果让某个文件不被打包, 可以设置ignore
+      var ignores = options.pkg.ignore || [];
+      if(ignores.indexOf(absolute_id) === -1)
+        grunt.log.error('file: '+ absolute_id + ' is not\'t exist');
       return [];
     }
-    var data = grunt.file.read(absoulut_id);
+    var data = grunt.file.read(absolute_id);
     var parsed = ast.parseFirst(data);
     parsed.dependencies.forEach(function(id) {
       

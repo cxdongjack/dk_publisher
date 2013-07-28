@@ -14,5 +14,6 @@
   },
   "vars" : {
     "ht" : "handle-text"
-  }
+  },
+  "ignore" : ["jquery", "static/widget/handle-text.js"]
 }

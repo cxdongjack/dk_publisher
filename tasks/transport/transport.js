@@ -46,7 +46,7 @@ module.exports = function(grunt) {
       }
     });
 
-    // 分析当前目录的下的配置文件（包含paths, vars等）
+    // 分析当前目录(base指定或Gruntfile.js's dirname)的下的配置文件（包含paths, vars等）
     if (grunt.util._.isString(options.pkg)) {
       if (grunt.file.exists(options.pkg)) {
         options.pkg = grunt.file.readJSON(options.pkg);
@@ -77,7 +77,6 @@ module.exports = function(grunt) {
       fpath = path.join(fileObj.cwd, fpath);
     } else {
       fname = path.relative(fileObj.orig && fileObj.orig.cwd || '', fpath);
-      console.log(fname)
     }
     if (grunt.file.isDir(fpath)) {
       grunt.file.mkdir(fpath);
