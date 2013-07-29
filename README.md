@@ -2,12 +2,12 @@
   为seajs项目的所有脚本提供一键打包
 
 ## 常用命令:
-''' shell
+``` shell
   # 全项目发布
   grunt --gruntfile publish.js --base ./example
   # 单文件发布
   grunt --gruntfile publish.js --base ./example single --target act_hello.js
-''' 
+```
 
 
 ## 注意事情
@@ -19,7 +19,7 @@
 	prefix  : 顶级路径的前缀, 如static/page路径中的static
 	target  : 需要分析的目标目录, 如static/page路径中的page
   其余项同seajs(paths, vars等)
-4. <--base>/<prefix>/<target>/<filename> 等于文件的实际路径
+4. <--base>//<prefix>//<target>//<filename> 等于文件的实际路径
 
 ## 重中之重
 try grunt --gruntfile publish.js --base ./example !
