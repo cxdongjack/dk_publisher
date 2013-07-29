@@ -1,39 +1,3 @@
-define("static/widget/handle-text.js", [], function(require, exports, module) {
-    var random = require("widget/util").random;
-    // console.log(require.resolve('../../util/src/util'));
-    function handleText(text) {
-        var min = random(30, 70);
-        var max = random(50, 120);
-        var rt = "";
-        for (var i = 0, len = text.length; i < len; i++) {
-            rt += '<span style="font-size:' + random(min, max) + 'px;">' + text[i] + "</span>";
-        }
-        return rt;
-    }
-    handleText.random = random;
-    return handleText;
-});
-
-define("static/widget/hello.js", [], function(require, exports, module) {
-    var handleText = require("widget/{ht}");
-    var random = handleText.random;
-    function Hello() {
-        this.render();
-        this.bindAction();
-        seajs.log("new Hello() called.");
-    }
-    Hello.prototype.render = function() {
-        this.el = $('<div style="position:fixed;' + "left:" + random(0, 70) + "%;" + "top:" + random(10, 80) + '%;">' + handleText("Hello SPM !") + "</div>").appendTo("body");
-    };
-    Hello.prototype.bindAction = function() {
-        var el = this.el;
-        setTimeout(function() {
-            el.fadeOut();
-        }, random(500, 5e3));
-    };
-    module.exports = Hello;
-});
-
 define("static/libs/gallery/jquery/1.8.3/jquery.js", [], function(require) {
     /*! jQuery v1.8.3 jquery.com | jquery.org/license */
     (function(e, t) {
@@ -3249,16 +3213,52 @@ define("static/libs/gallery/jquery/1.8.3/jquery.js", [], function(require) {
     return window.$;
 });
 
-define("static/widget/math.js", [], function(require) {
-    return {
-        plus: function(a, b) {
-            return a + b;
-        }
+define("static/widget/hello.js", [], function(require, exports, module) {
+    var handleText = require("widget/{ht}");
+    var random = handleText.random;
+    function Hello() {
+        this.render();
+        this.bindAction();
+        seajs.log("new Hello() called.");
+    }
+    Hello.prototype.render = function() {
+        this.el = $('<div style="position:fixed;' + "left:" + random(0, 70) + "%;" + "top:" + random(10, 80) + '%;">' + handleText("Hello SPM !") + "</div>").appendTo("body");
     };
+    Hello.prototype.bindAction = function() {
+        var el = this.el;
+        setTimeout(function() {
+            el.fadeOut();
+        }, random(500, 5e3));
+    };
+    module.exports = Hello;
+});
+
+define("static/widget/handle-text.js", [], function(require, exports, module) {
+    var random = require("widget/util").random;
+    // console.log(require.resolve('../../util/src/util'));
+    function handleText(text) {
+        var min = random(30, 70);
+        var max = random(50, 120);
+        var rt = "";
+        for (var i = 0, len = text.length; i < len; i++) {
+            rt += '<span style="font-size:' + random(min, max) + 'px;">' + text[i] + "</span>";
+        }
+        return rt;
+    }
+    handleText.random = random;
+    return handleText;
 });
 
 define("static/widget/util.js", [], function(require, exports) {
     exports.random = function(min, max) {
         return min + Math.round(Math.random() * (max - min));
+    };
+});
+
+define("static/widget/math.js", [], function(require) {
+    return {
+        plus: function(a, b) {
+            return a + b;
+        }
     };
 });

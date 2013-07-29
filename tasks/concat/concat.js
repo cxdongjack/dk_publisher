@@ -1,11 +1,3 @@
-/*
- * grunt-cmd-concat
- * https://github.com/spmjs/grunt-cmd-concat
- *
- * Copyright (c) 2013 Hsiaoming Yang
- * Licensed under the MIT license.
- */
-
 var path = require('path');
 
 module.exports = function(grunt) {

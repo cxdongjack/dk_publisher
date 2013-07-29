@@ -1,11 +1,3 @@
-/*
- * grunt-cmd-transport
- * https://github.com/spmjs/grunt-cmd-transport
- *
- * Copyright (c) 2013 Hsiaoming Yang
- * Licensed under the MIT license.
- */
-
 module.exports = function(grunt) {
   var path = require('path');
   var cmd = require('cmd-util');

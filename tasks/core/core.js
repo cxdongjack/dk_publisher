@@ -1,10 +1,3 @@
-/*
- * grunt-cmd-concat
- * https://github.com/spmjs/grunt-cmd-concat
- *
- * Copyright (c) 2013 Hsiaoming Yang
- * Licensed under the MIT license.
- */
 module.exports = function(grunt) {
   var path = require('path');
   var ast = require('cmd-util').ast;
@@ -69,32 +62,12 @@ module.exports = function(grunt) {
     return _keys;
   };
 
-  function getDestPaths(_list, dest_prefix) {
-    var _fs = grunt.file.expandMapping(_list, dest_prefix, {flatten : !0});
-    
-    // 防止在mapping过程中,个别文件不存在
-    if(_list.length !== _fs.length){
-      grunt.log.error('mapping isn\' equal: ' + _list.length + '-' + _fs.length);
-      _list.filter(function(_path){
-        if(!grunt.file.expand(_path).length)
-          grunt.log.error('mapping isn\' equal ->' + JSON.stringify(_path));
-      });
-      return !1;
-    }
+  function copyList(_list, dest_prefix) {
+    _.each(_list, function(fpath){
+      var _id = fpath ,
+          // 由于目录只有一级, 因此有可能重名, 因此选用随机数
+          _dest = path.join(dest_prefix || '', +new Date() + '.js');
 
-    return _fs;
-  };
-
-  function copyCoreList(_filesMapping) {
-    _.each(_filesMapping, function(_file){
-      // var _id = _map[_rpath],
-      var _id = fpath =  _file.src[0],
-          _dest = _file.dest;
-      if (!grunt.file.exists(fpath)) {
-        // 没必要检查的...
-        grunt.log.warn('file ' + fpath + ' not found');
-        return '';
-      }
       var src = ast.modify(grunt.file.read(fpath), {id: _id}).print_to_string({
         beautify: true,
         comments: true
@@ -113,17 +86,15 @@ module.exports = function(grunt) {
     // 获取所有依赖次数大于2的依赖
     var _keys = getCoreList(_all, pkg.include || [], pkg.exclude || []);
 
-    // 生成文件地址对 {<id> : dest_prefix/<id>}
-    var _fs = getDestPaths(_keys, dest_prefix);
-
-    // copy 文件到目标文件夹
-    copyCoreList(_fs);
+    // copy 文件到目标_core文件夹
+    copyList(_keys, dest_prefix);
 
     // core文件夹中的id列表,应从其它入口文件中剔除,故将该列表写入到config
     grunt.config.set('without',_keys);
 
     // 持久化写入core.list
     util.setCoreList(_keys);
+
     grunt.log.ok('core_list :');
     console.log(util.getCoreList());
 
