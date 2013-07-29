@@ -40,13 +40,11 @@ module.exports = function(grunt) {
       without : []
     });
 
-    // 获取core文件列表,合并至options.without
-    // var _without = grunt.config.get('without');
-
+    // 获取core文件列表
     var _without = util.getCoreList();
     options.without = _without;
-    // options.without = _.union(options.without, _without)
 
+    // log
     grunt.log.ok('core list : ');
     console.log(_without);
 
@@ -54,7 +52,7 @@ module.exports = function(grunt) {
       // reset records, 设置了全局的参数, 设置在命令行参数的作用域中
       grunt.option('concat-records', []);
 
-      // Concat specified files.
+      // 生成文本内容
       var src = options.banner + 
       f.src.filter(function(filepath) {
         // Warn on and remove invalid source files (if nonull was set).
