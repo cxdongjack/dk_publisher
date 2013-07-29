@@ -51,18 +51,23 @@ module.exports = function(grunt) {
       },
       core : {
         files: {
-           '<%= base %>/core/core.js': '<%= base %>/_core/*.js'
+           '<%= base %>/core/core-debug.js': '<%= base %>/_core/*.js'
         }
       },
     },
     uglify: {
-      main: {
+      page : {
         files: [{
            expand : true,
            cwd : '<%= base %>/debug/',
            src: ['*.js'], // Actual pattern(s) to match.
            dest: '<%= base %>/dist/'   // Destination path prefix.
         }]
+      },
+      core : {
+        files: {
+           '<%= base %>/core/core.js': '<%= base %>/core/core-debug.js'
+        }
       }
     },
     clean : {
@@ -89,7 +94,7 @@ module.exports = function(grunt) {
   process.chdir(_origDir);
   
   // 全文件打包 
-  grunt.registerTask('default', ['transport','core','concat:core','concat:page']);  
+  grunt.registerTask('default', ['clean:before','transport','core','concat:core','concat:page', 'uglify', 'clean:after']);  
   // 单文件打包
-  grunt.registerTask('single', ['transport','concat:page']);  
+  grunt.registerTask('single', ['transport','concat:page','uglify:page','clean:after']);  
 }

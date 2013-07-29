@@ -2,8 +2,6 @@
   "prefix": "static",
   "target" : "page",
   
-  "id_format" : "/aragon/hello-spm/assets/hello/dist/{{filename}}",
-
   "paths" : {
     "widget" : "static/widget",
     "page" : "static/page"
