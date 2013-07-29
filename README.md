@@ -19,7 +19,7 @@
 	prefix  : 顶级路径的前缀, 如static/page路径中的static
 	target  : 需要分析的目标目录, 如static/page路径中的page
   其余项同seajs(paths, vars等)
-4. <--base>\/<prefix>\/<target>\/<filename> 等于文件的实际路径
+4. base/prefix/target/filename 等于文件的实际路径
 
 ## 重中之重
 ``` shell
