@@ -39,18 +39,17 @@ module.exports = function(grunt) {
     });
 
     // 分析当前目录(base指定或Gruntfile.js's dirname)的下的配置文件（包含paths, vars等）
-    // if (grunt.util._.isString(options.pkg)) {
-    //   if (grunt.file.exists(options.pkg)) {
-    //     options.pkg = grunt.file.readJSON(options.pkg);
-    //   } else {
-    //     options.pkg = {};
-    //   }
-    // }
     options.pkg = grunt.config.get('pkg');
 
     if (options.process === true) {
       options.process = {};
     }
+
+
+    if(!this.files.length){
+      grunt.fail.fatal('transport files not exists');
+      return;
+    } 
 
     var fname, destfile;
     this.files.forEach(function(fileObj) {
