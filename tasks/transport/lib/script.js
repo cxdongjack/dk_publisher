@@ -70,10 +70,7 @@ exports.init = function(grunt) {
     var deps = [];
     
     if (!grunt.file.exists(absolute_id)) {
-      // 如果让某个文件不被打包, 可以设置ignore
-      var ignores = options.pkg.ignore || [];
-      if(ignores.indexOf(absolute_id) === -1)
-        grunt.log.error('file: '+ absolute_id + ' is not\'t exist');
+      grunt.log.error('file: '+ absolute_id + ' is not\'t exist');
       return [];
     }
     var data = grunt.file.read(absolute_id);

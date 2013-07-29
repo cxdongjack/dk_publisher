@@ -16,11 +16,6 @@ exports.init = function(grunt) {
     return _pkg.list || [];
   };
 
-  exports.isIgnore = function(_id) {
-    var ignores = pkg.ignore || [];
-    return (ignores.indexOf(_id) === -1);
-  };
-
   function id2TopLevel(_id, fpath){
     // 若为相对路径， 则join
     if (_id.charAt(0) === '.') {

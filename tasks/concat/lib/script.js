@@ -32,8 +32,7 @@ exports.init = function(grunt) {
     records.push(id);
 
     if (!grunt.file.exists(fpath)) {
-      if(!util.isIgnore(id))
-        grunt.log.warn('file ' + fpath + ' not found');
+      grunt.log.warn('file ' + fpath + ' not found');
       return '';
     }
     
