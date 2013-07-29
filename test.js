@@ -45,7 +45,7 @@ module.exports = function(grunt) {
       },
       core : {
         files: {
-           '<%= base %>/debug/core.js': '<%= base %>/_core/*.js'
+           '<%= base %>/core/core.js': '<%= base %>/_core/*.js'
         }
       },
     },

@@ -15,7 +15,7 @@
           "ht" : "handle-text"
         },
         preload: [
-          'static/debug/core.js'
+          location.search.indexOf("debug") === -1 ? '' : 'static/core/core.js' 
         ],
         map: [
          location.search.indexOf("debug") === -1 ? [] : [ /page\//i, 'debug/' ]

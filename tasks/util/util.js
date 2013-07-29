@@ -6,10 +6,15 @@ exports.init = function(grunt) {
 	  grunt.file.write(pkg.prefix + '/core/core.list', JSON.stringify({list:_list}));
 	};
 
-	exports.getCoreList = function() {
-	  var _pkg = grunt.file.readJSON(pkg.prefix + '/core/core.list');
-	  return _pkg.list;
-	};
+  exports.getCoreList = function() {
+    var _pkg = grunt.file.readJSON(pkg.prefix + '/core/core.list');
+    return _pkg.list || [];
+  };
+
+  exports.isIgnore = function(_id) {
+    var ignores = pkg.ignore || [];
+    return (ignores.indexOf(_id) === -1);
+  };
 
   function id2TopLevel(_id, fpath){
     // 若为相对路径， 则join
