@@ -4,7 +4,6 @@ exports.init = function(grunt) {
   var util = require('../../util/util.js').init(grunt);
   var iduri = require('cmd-util').iduri;
 
-
   var exports = {};
 
   exports.jsParser = function(fileObj, options) {
@@ -20,6 +19,7 @@ exports.init = function(grunt) {
     }
 
     // 递归计算当前文件的所有依赖文件, 所有依赖以id的形式存在
+    resetDeps();
     var deps = relativeDependencies(fileObj.src, options);
 
     if (deps.length) {
@@ -39,24 +39,13 @@ exports.init = function(grunt) {
     });
     data = astCache.print_to_string(options.uglify);
     grunt.file.write(fileObj.dest, data);
+  };
 
-    // 如果debug, 则再写-debug文件
-    // if (!options.debug) {
-    //   return;
-    // }
-    // var dest = fileObj.dest.replace(/\.js$/, '-debug.js');
-    // grunt.log.writeln('Creating debug file: ' + dest);
+  // 计算出来的文件依赖
+  var _deps = []; 
 
-    // astCache = ast.modify(data, function(v) {
-    //   var ext = path.extname(v);
-    //   if (ext) {
-    //     return v.replace(new RegExp('\\' + ext + '$'), '-debug' + ext);
-    //   } else {
-    //     return v + '-debug';
-    //   }
-    // });
-    // data = astCache.print_to_string(options.uglify);
-    // grunt.file.write(dest, data);
+  function resetDeps() {
+    _deps = [];
   };
   
   /*
@@ -64,10 +53,7 @@ exports.init = function(grunt) {
    * @param absolute_id {string} 为当前文件path
    */
   function relativeDependencies(absolute_id, options) {
-    absolute_id = iduri.appendext(absolute_id);
-    // grunt.log.writeln('deal ' + absolute_id );
-
-    var deps = [];
+    // console.log(absolute_id);
     
     if (!grunt.file.exists(absolute_id)) {
       grunt.log.error('file: '+ absolute_id + ' is not\'t exist');
@@ -76,13 +62,16 @@ exports.init = function(grunt) {
     var data = grunt.file.read(absolute_id);
     var parsed = ast.parseFirst(data);
     parsed.dependencies.forEach(function(id) {
-      
-      id = util.transformId(id);
-      deps.push(id);
-      // 递归
-      deps = grunt.util._.union(deps, relativeDependencies(id, options));
+      id = util.transformId(id, absolute_id);
+
+      // 如果已经处理过的文件, 不重复计算
+      if(_deps.indexOf(id) === -1) {
+        _deps.push(id);
+        relativeDependencies(id, options);
+      }
+      return;
     });
-    return deps;
+    return _deps;
   }
 
   return exports;

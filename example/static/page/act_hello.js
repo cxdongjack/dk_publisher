@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 	var $ = require('jquery'),
-			Hello = require('widget/hello');
+			Hello = require('../widget/hello');
 
   $(document).keypress(function(ev){
     if(ev.which == 32){

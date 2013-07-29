@@ -1,6 +1,7 @@
 exports.init = function(grunt) {
   var iduri = require('cmd-util').iduri;
   var pkg = grunt.config.get('pkg');
+  var path = require('path');
 
 	exports.setCoreList = function(_list) {
 	  grunt.file.write(pkg.prefix + '/core/core.list', JSON.stringify({list:_list}));
@@ -52,7 +53,7 @@ exports.init = function(grunt) {
   }
 
   // 将id转换成顶级路径，同时此路径也是id
-  exports.transformId = function(id) {
+  exports.transformId = function(id, absolute_id) {
     // 如果是相对路径， 则转换为顶级路径
     if (id.charAt(0) === '.') {
       // push the absolute id not the origin

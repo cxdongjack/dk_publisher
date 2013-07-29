@@ -2,6 +2,8 @@
 
 # command example:
   grunt --gruntfile test.js --base ./example
+  $ grunt --gruntfile test.js --base /e/code/duokan_store/v0/www/web/v0/develop/s
+tatic/lib transport
 
 # --base 指定的目录可以为绝对或相对路径
 
