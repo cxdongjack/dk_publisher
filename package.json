@@ -1,0 +1,29 @@
+{
+  "name": "dk_publisher",
+  "version": "0.1.0",
+  "description": "Utilities for seajs project publish.",
+  "author": {
+    "name": "cxdongjack",
+    "email": "cxdongjack@163.com"
+  },
+  "dependencies": {
+    "grunt" : "0.4.1",
+    "cmd-util": "~0.3.4",
+    "uglify-js": "~2.2.5",
+    "grunt-contrib-clean": "~0.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cxdongjack/dk_publisher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cxdongjack/dk_publisher/issues"
+  },
+  "keywords": [
+    "cmd",
+    "seajs",
+    "module",
+    "ast"
+  ],
+  "readmeFilename": "README.md",
+}
