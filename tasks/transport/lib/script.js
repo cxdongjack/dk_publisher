@@ -1,7 +1,6 @@
 exports.init = function(grunt) {
   var path = require('path');
   var ast = require('cmd-util').ast;
-  console.log(1)
   var util = require('../../util/util.js').init(grunt);
   var iduri = require('cmd-util').iduri;
 
@@ -9,7 +8,7 @@ exports.init = function(grunt) {
   var exports = {};
 
   exports.jsParser = function(fileObj, options) {
-    grunt.log.writeln('Transport ' + fileObj.src + ' -> ' + fileObj.dest);
+    grunt.log.writeln('\nTransport ' + fileObj.src + ' -> ' + fileObj.dest);
     var data = fileObj.srcData || grunt.file.read(fileObj.src);
     var astCache = ast.getAst(data);
 
@@ -24,7 +23,8 @@ exports.init = function(grunt) {
     var deps = relativeDependencies(fileObj.src, options);
 
     if (deps.length) {
-      grunt.log.writeln('found dependencies ' + deps + '\n');
+      grunt.log.writeln('found dependencies : ');
+      console.log(deps);
     } else {
       grunt.log.writeln('found no dependencies');
     }

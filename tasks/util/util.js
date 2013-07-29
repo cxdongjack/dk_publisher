@@ -7,6 +7,11 @@ exports.init = function(grunt) {
 	};
 
   exports.getCoreList = function() {
+    var _path = pkg.prefix + '/core/core.list';
+    if (!grunt.file.exists(_path)) {
+      grunt.log.warn('core.list not exist! Are you sure?');
+      return [];
+    }
     var _pkg = grunt.file.readJSON(pkg.prefix + '/core/core.list');
     return _pkg.list || [];
   };

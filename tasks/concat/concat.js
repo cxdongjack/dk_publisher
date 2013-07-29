@@ -39,15 +39,16 @@ module.exports = function(grunt) {
       banner: '',
       without : []
     });
-    
+
     // 获取core文件列表,合并至options.without
     // var _without = grunt.config.get('without');
-    grunt.log.ok('core list : ');
-    console.log(util.getCoreList());
 
     var _without = util.getCoreList();
     options.without = _without;
     // options.without = _.union(options.without, _without)
+
+    grunt.log.ok('core list : ');
+    console.log(_without);
 
     this.files.forEach(function(f) {
       // reset records, 设置了全局的参数, 设置在命令行参数的作用域中

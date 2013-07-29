@@ -1,6 +1,7 @@
 var util = require('./tasks/util/util.js');
 module.exports = function(grunt) {
 
+  var target =  grunt.option('target') || '*.js'; 
   grunt.initConfig({
     // --base指定目录的package.json
     pkg : grunt.file.readJSON('package.json'),
@@ -15,7 +16,7 @@ module.exports = function(grunt) {
           files: [{
               expand : true,
               cwd : '<%= base %>/<%= pkg.target %>',
-              src: ['*.js'],
+              src: [target],
               dest: '<%= base %>/_build/',
               flatten : true
           }]
@@ -39,7 +40,7 @@ module.exports = function(grunt) {
         files : [{
            expand : true,
            cwd : '<%= base %>/_build/',
-           src: ['**/*.js'], // Actual pattern(s) to match.
+           src: [target], // Actual pattern(s) to match.
            dest: '<%= base %>/debug/'   // Destination path prefix.
         }]
       },
@@ -70,4 +71,5 @@ module.exports = function(grunt) {
   
   grunt.registerTask('default', ['transport','core','concat:core','concat:page']);  
   // grunt.registerTask('default', ['transport','concat:page']);  
+  grunt.registerTask('single', ['transport','concat:page']);  
 }
