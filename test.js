@@ -60,7 +60,7 @@ module.exports = function(grunt) {
         files: [{
            expand : true,
            cwd : '<%= base %>/debug/',
-           src: ['*.js'], // Actual pattern(s) to match.
+           src: [target], // Actual pattern(s) to match.
            dest: '<%= base %>/dist/'   // Destination path prefix.
         }]
       },
