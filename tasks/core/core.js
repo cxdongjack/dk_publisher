@@ -76,19 +76,19 @@ module.exports = function(grunt) {
     return _keys;
   };
 
-  function copyList(_list, dest_prefix) {
-    _.each(_list, function(fpath){
-      var _id = fpath ,
-          // 由于目录只有一级, 因此有可能重名, 因此选用随机数
-          _dest = path.join(dest_prefix || '', +new Date() + '.js');
+  // function copyList(_list, dest_prefix) {
+  //   _.each(_list, function(fpath){
+  //     var _id = fpath ,
+  //         // 由于目录只有一级, 因此有可能重名, 因此选用随机数
+  //         _dest = path.join(dest_prefix || '', +new Date() + '.js');
 
-      var src = ast.modify(grunt.file.read(fpath), {id: _id}).print_to_string({
-        beautify: true,
-        comments: true
-      });
-      grunt.file.write(_dest, src);
-    });
-  };
+  //     var src = ast.modify(grunt.file.read(fpath), {id: _id}).print_to_string({
+  //       beautify: true,
+  //       comments: true
+  //     });
+  //     grunt.file.write(_dest, src);
+  //   });
+  // };
 
   function doTask(){
     var options = this.options(),
@@ -101,8 +101,9 @@ module.exports = function(grunt) {
     // 获取所有依赖次数大于2的依赖
     var _keys = getCoreList(_all, pkg.include || [], pkg.exclude || []);
 
+    // @deprece 由单独的任务完成
     // copy 文件到目标_core文件夹
-    copyList(_keys, dest_prefix);
+    // copyList(_keys, dest_prefix);
 
     // core文件夹中的id列表,应从其它入口文件中剔除,故将该列表写入到config
     grunt.config.set('without',_keys);
@@ -115,4 +116,23 @@ module.exports = function(grunt) {
 
   }
   grunt.registerMultiTask('core', 'get repeat modules.', doTask)
+
+  function doCopyTask () {
+    var _list = util.getCoreList(),
+        dest_prefix = pkg.prefix + '/_core/';
+        
+    _.each(_list, function(fpath){
+      var _id = fpath ,
+          // 由于目录只有一级, 因此有可能重名, 因此选用随机数
+          _dest = path.join(dest_prefix || '', +new Date() + '.js');
+
+      var src = ast.modify(grunt.file.read(fpath), {id: _id}).print_to_string({
+        beautify: true,
+        comments: true
+      });
+      grunt.file.write(_dest, src);
+    });
+  }
+
+  grunt.registerTask('copycore', 'get repeat modules.', doCopyTask)
 };

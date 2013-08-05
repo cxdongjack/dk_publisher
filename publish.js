@@ -40,6 +40,9 @@ module.exports = function(grunt) {
         }]
       }
     },
+    copycore : {
+
+    },
     concat: {
       page : {
         files : [{
@@ -94,7 +97,7 @@ module.exports = function(grunt) {
   process.chdir(_origDir);
   
   // 全文件打包 
-  grunt.registerTask('default', ['clean:before','transport','core','concat:core','concat:page', 'uglify', 'clean:after']);  
+  grunt.registerTask('default', ['clean:before','transport','core','copycore','concat:core','concat:page', 'uglify', 'clean:after']);  
   // 单文件打包
   grunt.registerTask('single', ['transport','concat:page','uglify:page','clean:after']);  
 }
