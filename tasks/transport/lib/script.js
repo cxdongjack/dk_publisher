@@ -39,6 +39,7 @@ exports.init = function(grunt) {
     });
     data = astCache.print_to_string(options.uglify);
     grunt.file.write(fileObj.dest, data);
+    return deps;
   };
 
   // 计算出来的文件依赖
@@ -61,6 +62,7 @@ exports.init = function(grunt) {
     }
     var data = grunt.file.read(absolute_id);
     var parsed = ast.parseFirst(data);
+    console.log(absolute_id);
     parsed.dependencies.forEach(function(id) {
       id = util.transformId(id, absolute_id);
 

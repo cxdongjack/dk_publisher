@@ -2,6 +2,7 @@ module.exports = function(grunt) {
   var path = require('path');
   var cmd = require('cmd-util');
   var ast = cmd.ast;
+  var util = require('../util/util.js').init(grunt);
   var iduri = cmd.iduri;
 
   var text = require('./lib/text').init(grunt);
@@ -10,6 +11,9 @@ module.exports = function(grunt) {
   var template = require('./lib/template').init(grunt);
 
   var data, astCache;
+
+  // 全局的配置参数
+  var _config = {};
 
   function doTask(){
     var options = this.options({
@@ -51,6 +55,7 @@ module.exports = function(grunt) {
       return;
     } 
 
+
     var fname, destfile;
     this.files.forEach(function(fileObj) {
       // 由于src为Array, 因此这里forEach一下, 此处src的长度为1
@@ -59,6 +64,8 @@ module.exports = function(grunt) {
         transportFile(fpath, fileObj, options);
       });
     });
+    // 持久化
+    util.setConfig(_config);
   }
 
   function transportFile(fpath, fileObj, options){
@@ -96,12 +103,13 @@ module.exports = function(grunt) {
 
     // 处理文件
     fileparsers.forEach(function(fn) {
-      fn({
+      var _deps = fn({
         src: fpath,
         srcData: srcData,
         name: fname,
         dest: destfile
       }, options);
+      _config[fpath] = _deps;
     });
   };
 

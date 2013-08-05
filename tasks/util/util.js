@@ -17,6 +17,20 @@ exports.init = function(grunt) {
     return _pkg.list || [];
   };
 
+  exports.setConfig = function(_obj) {
+    grunt.file.write(pkg.prefix + '/core/config', JSON.stringify(_obj));
+  };
+
+  exports.getConfig = function() {
+    var _path = pkg.prefix + '/core/config';
+    if (!grunt.file.exists(_path)) {
+      grunt.log.warn('core.list not exist! Are you sure?');
+      return {};
+    }
+    var _pkg = grunt.file.readJSON(pkg.prefix + '/core/config');
+    return _pkg || {};
+  };
+
   function id2TopLevel(_id, fpath){
     // 若为相对路径， 则join
     if (_id.charAt(0) === '.') {

@@ -7,48 +7,62 @@ module.exports = function(grunt) {
   var _ = grunt.util._;
   var pkg = grunt.config.get('pkg');
 
-  function getDependencies(fileObj, filepath) {
-    // 一旦文件不存在， 则程序跳出，因为此处不应该出现文件不存在
-    if (!grunt.file.exists(filepath)) {
-      grunt.log.error('Source file "' + filepath + '" not found.');
-      return [];
-    }
-    // 分析每个文件的依赖, 并以数组形式返回
-    var data = grunt.file.read(filepath);
-    var meta = ast.parseFirst(data);
-    var dps = meta.dependencies.map(function(id){
-      // id 即 顶级路径
-      var path = id;
-      if (!grunt.file.exists(path)) {
-        // 如果让某个文件不被打包, 可以设置ignore
-        var ignores = pkg.ignore || [];
-        if(ignores.indexOf(path) === -1)
-          grunt.log.error('file: '+ path + ' is not\'t exist');
-        return null;
-      } else {
-        // _map[_path] = id;
-        return path;
-      }
-    });
+  // function getDependencies(fileObj, filepath) {
+  //   // 一旦文件不存在， 则程序跳出，因为此处不应该出现文件不存在
+  //   if (!grunt.file.exists(filepath)) {
+  //     grunt.log.error('Source file "' + filepath + '" not found.');
+  //     return [];
+  //   }
+  //   // 分析每个文件的依赖, 并以数组形式返回
+  //   var data = grunt.file.read(filepath);
+  //   var meta = ast.parseFirst(data);
+  //   var dps = meta.dependencies.map(function(id){
+  //     // id 即 顶级路径
+  //     var path = id;
+  //     if (!grunt.file.exists(path)) {
+  //       // 如果让某个文件不被打包, 可以设置ignore
+  //       var ignores = pkg.ignore || [];
+  //       if(ignores.indexOf(path) === -1)
+  //         grunt.log.error('file: '+ path + ' is not\'t exist');
+  //       return null;
+  //     } else {
+  //       // _map[_path] = id;
+  //       return path;
+  //     }
+  //   });
 
-    return dps;
-  };
+  //   return dps;
+  // };
 
-  function getAllDeps(files) {
+  // function getAllDeps(files) {
+  //   var _all = {};
+  //   files.forEach(function(fileObj) {
+  //     // 因为files, flatten：true, 因此所有的fileObj.src长度为1
+  //     var _dps = getDependencies(fileObj, fileObj.src[0]);
+
+  //     // 合并所有文件的依赖
+  //     _.each(_dps, function(_id) {
+  //       _all[_id] = _all[_id] || 0;
+  //       _all[_id] ++ ;
+  //     });
+
+  //   });
+  //   return _all;
+  // };
+
+  function getAll () {
+    var _config = util.getConfig();
     var _all = {};
-    files.forEach(function(fileObj) {
-      // 因为files, flatten：true, 因此所有的fileObj.src长度为1
-      var _dps = getDependencies(fileObj, fileObj.src[0]);
 
-      // 合并所有文件的依赖
+    _.each(_config, function(_dps) {
       _.each(_dps, function(_id) {
         _all[_id] = _all[_id] || 0;
         _all[_id] ++ ;
       });
-
     });
+
     return _all;
-  };
+  } 
 
   function getCoreList(_all, _include, _exclude) {
     var _keys = [];
@@ -80,8 +94,9 @@ module.exports = function(grunt) {
     var options = this.options(),
         dest_prefix = this.files[0].orig.dest;
 
-    // 求所有目标文件夹下文件的依赖， 结果为【<id>], 即是id也是path
-    var _all = getAllDeps(this.files);
+    // 求所有目标文件夹下文件的依赖， 结果为[<id>, ...], 即是id也是path
+    // var _all = getAllDeps(this.files);
+    var _all = getAll();
     
     // 获取所有依赖次数大于2的依赖
     var _keys = getCoreList(_all, pkg.include || [], pkg.exclude || []);
