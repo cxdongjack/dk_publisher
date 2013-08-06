@@ -153,4 +153,28 @@ module.exports = function(grunt) {
   }
 
   grunt.registerTask('copycore', 'get repeat modules.', doCopyTask)
+
+  function doTest () {
+    var _config = util.getConfig();
+    console.log(_.keys(_config));
+    console.log(path.join(pkg.prefix, 'debug'));
+    var _paths = _.keys(_config).map(function(_fpath) {
+      return _fpath.split('/').pop();
+    });
+    var _maps = _paths.map(function(_path) {
+      return {
+        src : path.join(pkg.prefix, 'page', _path),
+        dest : path.join(pkg.prefix, 'debug', _path)
+      };
+    });
+    console.log(_maps);
+    var _mapping = grunt.file.expandMapping(_paths, path.join(pkg.prefix, 'debug'), {cwd : path.join(pkg.prefix, 'page')});
+    console.log(_mapping);
+
+
+    // TODO其实都没用， 最根本的应该是从 page 读取文件， 根据path作为id从config取depence, 最后放到目标文件夹内
+
+  }
+
+  grunt.registerTask('test', 'get repeat modules.', doTest)
 };
