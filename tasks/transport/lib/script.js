@@ -29,7 +29,8 @@ exports.init = function(grunt) {
       grunt.log.writeln('found no dependencies');
     }
 
-    // 修改源文件内容，加入id和dependences
+    // 通过写config, 抽象了dependences, 不依赖于具体的文件
+    // @deprecated 修改源文件内容，加入id和dependences
     astCache = ast.modify(astCache, {
       id: iduri.idFromPackage(options.pkg, fileObj.name, options.format),
       dependencies: deps,
@@ -39,6 +40,7 @@ exports.init = function(grunt) {
     });
     data = astCache.print_to_string(options.uglify);
     grunt.file.write(fileObj.dest, data);
+    
     return deps;
   };
 

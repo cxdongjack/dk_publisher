@@ -1,6 +1,8 @@
 var util = require('./tasks/util/util.js');
 module.exports = function(grunt) {
 
+  var util = require('./tasks/util/util.js').init(grunt);
+  var pkg = grunt.file.readJSON('package.json');
   // 读取命令行参数中的target作为本次构建的目标
   // 可以是单文件'act_tt.js'
   // 可以是多文件'*.js'
@@ -9,7 +11,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     // --base指定目录的package.json
-    pkg : grunt.file.readJSON('package.json'),
+    pkg : pkg,
     base : '<%= pkg.prefix %>',
     transport: {
       options: {
@@ -40,9 +42,6 @@ module.exports = function(grunt) {
         }]
       }
     },
-    copycore : {
-
-    },
     concat: {
       page : {
         files : [{
@@ -52,11 +51,16 @@ module.exports = function(grunt) {
            dest: '<%= base %>/debug/'   // Destination path prefix.
         }]
       },
+      // core : {
+      //   files: {
+      //      '<%= base %>/core/core-debug.js': '<%= base %>/_core/*.js'
+      //   }
+      // },
       core : {
         files: {
-           '<%= base %>/core/core-debug.js': '<%= base %>/_core/*.js'
+           '<%= base %>/core/core-debug.js': util.getCoreList(pkg.prefix)
         }
-      },
+      }
     },
     uglify: {
       page : {
@@ -97,7 +101,7 @@ module.exports = function(grunt) {
   process.chdir(_origDir);
   
   // 全文件打包 
-  grunt.registerTask('default', ['clean:before','transport','core','copycore','concat:core','concat:page', 'uglify', 'clean:after']);  
+  grunt.registerTask('default', ['clean:before','transport','core','copycore','concat:page', 'uglify', 'clean:after']);  
   // 单文件打包
   grunt.registerTask('single', ['transport','concat:page','uglify:page','clean:after']);  
 }

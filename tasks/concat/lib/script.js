@@ -35,7 +35,7 @@ exports.init = function(grunt) {
       grunt.log.warn('file ' + fpath + ' not found');
       return '';
     }
-    
+      
     // 为文件内容添加id
     return ast.modify(grunt.file.read(fpath), {id: id}).print_to_string();
   };
@@ -54,6 +54,14 @@ exports.init = function(grunt) {
       grunt.log.error('File ' + fileObj.src + ' is\'t AMD, are you sure?');
       return data;
     }
+
+    // 做core合并的时候， 由于源文件里面没有id, 因此用path做id
+    // if(!meta.id) {
+    //   meta.id = fileObj.src;
+    //   data = ast.modify(data, {id: meta.id}).print_to_string();
+    //   // 不需要依赖
+    //   data = ast.modify(data, {id: meta.id, dependencies:[]}).print_to_string();
+    // }
 
     // 检查是否已经合并过
     if (grunt.util._.contains(records, meta.id)) {

@@ -1,5 +1,4 @@
 define("static/libs/gallery/jquery/1.8.3/jquery.js", [], function(require) {
-    /*! jQuery v1.8.3 jquery.com | jquery.org/license */
     (function(e, t) {
         function _(e) {
             var t = M[e] = {};
@@ -3235,7 +3234,6 @@ define("static/widget/hello.js", [], function(require, exports, module) {
 
 define("static/widget/handle-text.js", [], function(require, exports, module) {
     var random = require("widget/util").random;
-    // console.log(require.resolve('../../util/src/util'));
     function handleText(text) {
         var min = random(30, 70);
         var max = random(50, 120);

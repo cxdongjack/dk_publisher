@@ -7,13 +7,14 @@ exports.init = function(grunt) {
 	  grunt.file.write(pkg.prefix + '/core/core.list', JSON.stringify({list:_list}));
 	};
 
-  exports.getCoreList = function() {
-    var _path = pkg.prefix + '/core/core.list';
+  exports.getCoreList = function(_prefix) {
+    _prefix = _prefix || pkg.prefix;
+    var _path = _prefix + '/core/core.list';
     if (!grunt.file.exists(_path)) {
       grunt.log.warn('core.list not exist! Are you sure?');
       return [];
     }
-    var _pkg = grunt.file.readJSON(pkg.prefix + '/core/core.list');
+    var _pkg = grunt.file.readJSON(_prefix + '/core/core.list');
     return _pkg.list || [];
   };
 

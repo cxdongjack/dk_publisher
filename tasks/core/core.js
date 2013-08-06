@@ -91,8 +91,8 @@ module.exports = function(grunt) {
   // };
 
   function doTask(){
-    var options = this.options(),
-        dest_prefix = this.files[0].orig.dest;
+    var options = this.options();
+        // dest_prefix = this.files[0].orig.dest;
 
     // 求所有目标文件夹下文件的依赖， 结果为[<id>, ...], 即是id也是path
     // var _all = getAllDeps(this.files);
@@ -118,20 +118,38 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('core', 'get repeat modules.', doTask)
 
   function doCopyTask () {
-    var _list = util.getCoreList(),
-        dest_prefix = pkg.prefix + '/_core/';
+    var options = this.options({
+          separator: grunt.util.linefeed,
+          uglify: {
+            beautify: true,
+            comments: true
+          }
+        }),
+        _list = util.getCoreList(),
+        dest_prefix = pkg.prefix + '/_core/',
+        _dest = path.join(dest_prefix || '', 'core-debug.js');
         
-    _.each(_list, function(fpath){
-      var _id = fpath ,
-          // 由于目录只有一级, 因此有可能重名, 因此选用随机数
-          _dest = path.join(dest_prefix || '', +new Date() + '.js');
+    // _.each(_list, function(fpath){
+    //   var _id = fpath ,
+    //       // 由于目录只有一级, 因此有可能重名, 因此选用随机数
+    //       _dest = path.join(dest_prefix || '', +new Date() + '.js');
 
-      var src = ast.modify(grunt.file.read(fpath), {id: _id}).print_to_string({
-        beautify: true,
-        comments: true
-      });
-      grunt.file.write(_dest, src);
-    });
+    //   var src = ast.modify(grunt.file.read(fpath), {id: _id}).print_to_string({
+    //     beautify: true,
+    //     comments: true
+    //   });
+    //   grunt.file.write(_dest, src);
+    // });
+
+    var rv = _.map(_list, function(fpath) {
+      var _id = fpath;
+      var src = ast.modify(grunt.file.read(fpath), {id: _id}).print_to_string(options.uglify);
+      return src;
+    }).join(grunt.util.normalizelf(options.separator));
+
+    grunt.file.write(_dest, rv);
+
+
   }
 
   grunt.registerTask('copycore', 'get repeat modules.', doCopyTask)
