@@ -19,7 +19,9 @@ exports.init = function(grunt) {
   };
 
   exports.setConfig = function(_obj) {
-    grunt.file.write(pkg.prefix + '/core/config', JSON.stringify(_obj));
+    var _orig = exports.getConfig();
+    grunt.util._.extend(_orig, _obj);
+    grunt.file.write(pkg.prefix + '/core/config', JSON.stringify(_orig));
   };
 
   exports.getConfig = function() {

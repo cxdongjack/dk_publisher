@@ -1,1 +1,1 @@
-define("static/page/act_DK",[],function(e){var t=e("static/libs/gallery/jquery/1.8.3/jquery.js"),i=e("widget/hello");t(document).keypress(function(e){32==e.which&&new i})});
+define("static/page/act_DK.js",[],function(e){var n=e("jquery"),t=e("widget/hello");n(document).keypress(function(e){32==e.which&&new t})});

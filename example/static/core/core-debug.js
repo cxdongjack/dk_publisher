@@ -1,4 +1,5 @@
 define("static/libs/gallery/jquery/1.8.3/jquery.js", [], function(require) {
+    /*! jQuery v1.8.3 jquery.com | jquery.org/license */
     (function(e, t) {
         function _(e) {
             var t = M[e] = {};
@@ -545,7 +546,7 @@ define("static/libs/gallery/jquery/1.8.3/jquery.js", [], function(require) {
                 } else for (;s < o; ) if (n.call(e[s], s, e[s++]) === !1) break;
                 return e;
             },
-            trim: d && !d.call(" ") ? function(e) {
+            trim: d && !d.call("﻿ ") ? function(e) {
                 return e == null ? "" : d.call(e);
             } : function(e) {
                 return e == null ? "" : (e + "").replace(b, "");
@@ -3211,7 +3212,6 @@ define("static/libs/gallery/jquery/1.8.3/jquery.js", [], function(require) {
     window.$ = $.noConflict(true);
     return window.$;
 });
-
 define("static/widget/hello.js", [], function(require, exports, module) {
     var handleText = require("widget/{ht}");
     var random = handleText.random;
@@ -3231,9 +3231,9 @@ define("static/widget/hello.js", [], function(require, exports, module) {
     };
     module.exports = Hello;
 });
-
 define("static/widget/handle-text.js", [], function(require, exports, module) {
     var random = require("widget/util").random;
+    // console.log(require.resolve('../../util/src/util'));
     function handleText(text) {
         var min = random(30, 70);
         var max = random(50, 120);
@@ -3246,13 +3246,11 @@ define("static/widget/handle-text.js", [], function(require, exports, module) {
     handleText.random = random;
     return handleText;
 });
-
 define("static/widget/util.js", [], function(require, exports) {
     exports.random = function(min, max) {
         return min + Math.round(Math.random() * (max - min));
     };
 });
-
 define("static/widget/math.js", [], function(require) {
     return {
         plus: function(a, b) {

@@ -31,15 +31,15 @@ exports.init = function(grunt) {
 
     // 通过写config, 抽象了dependences, 不依赖于具体的文件
     // @deprecated 修改源文件内容，加入id和dependences
-    astCache = ast.modify(astCache, {
-      id: iduri.idFromPackage(options.pkg, fileObj.name, options.format),
-      dependencies: deps,
-      require: function(v) {
-        return iduri.parseAlias(options.pkg, v);
-      }
-    });
-    data = astCache.print_to_string(options.uglify);
-    grunt.file.write(fileObj.dest, data);
+    // astCache = ast.modify(astCache, {
+    //   id: iduri.idFromPackage(options.pkg, fileObj.name, options.format),
+    //   dependencies: deps,
+    //   require: function(v) {
+    //     return iduri.parseAlias(options.pkg, v);
+    //   }
+    // });
+    // data = astCache.print_to_string(options.uglify);
+    // grunt.file.write(fileObj.dest, data);
     
     return deps;
   };

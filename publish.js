@@ -37,31 +37,36 @@ module.exports = function(grunt) {
         files: [{
            expand : true,
            cwd : '<%= base %>/_build/',
-           src: ['**/*.js'], // Actual pattern(s) to match.
-           dest: '<%= base %>/_core/'   // Destination path prefix.
+           src: ['**/*.js'], // actual pattern(s) to match.
+           dest: '<%= base %>/_core/'   // destination path prefix.
         }]
       }
     },
-    concat: {
-      page : {
-        files : [{
-           expand : true,
-           cwd : '<%= base %>/_build/',
-           src: [target], // Actual pattern(s) to match.
-           dest: '<%= base %>/debug/'   // Destination path prefix.
-        }]
-      },
+    page : {
+      options : {
+          target : target
+      }
+    },
+    // concat: {
+    //   page : {
+    //     files : [{
+    //        expand : true,
+    //        cwd : '<%= base %>/_build/',
+    //        src: [target], // Actual pattern(s) to match.
+    //        dest: '<%= base %>/debug/'   // Destination path prefix.
+    //     }]
+    //   },
       // core : {
       //   files: {
       //      '<%= base %>/core/core-debug.js': '<%= base %>/_core/*.js'
       //   }
       // },
-      core : {
-        files: {
-           '<%= base %>/core/core-debug.js': util.getCoreList(pkg.prefix)
-        }
-      }
-    },
+    //   core : {
+    //     files: {
+    //        '<%= base %>/core/core-debug.js': util.getCoreList(pkg.prefix)
+    //     }
+    //   }
+    // },
     uglify: {
       page : {
         files: [{
@@ -94,6 +99,7 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks/transport');
   grunt.loadTasks('tasks/core');
   grunt.loadTasks('tasks/concat');
+  grunt.loadTasks('tasks/page');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
@@ -101,7 +107,9 @@ module.exports = function(grunt) {
   process.chdir(_origDir);
   
   // 全文件打包 
-  grunt.registerTask('default', ['clean:before','transport','core','copycore','concat:page', 'uglify', 'clean:after']);  
+  // grunt.registerTask('default', ['clean:before','transport','core','copycore','concat:page', 'uglify', 'clean:after']);  
+  grunt.registerTask('default', ['clean:before','transport','core','copycore','page', 'uglify']);  
   // 单文件打包
-  grunt.registerTask('single', ['transport','concat:page','uglify:page','clean:after']);  
+  // grunt.registerTask('single', ['transport','concat:page','uglify:page','clean:after']);  
+  grunt.registerTask('single', ['transport','page','uglify:page']);  
 }
