@@ -112,4 +112,5 @@ module.exports = function(grunt) {
   // 单文件打包
   // grunt.registerTask('single', ['transport','concat:page','uglify:page','clean:after']);  
   grunt.registerTask('single', ['transport','page','uglify:page']);  
+  grunt.registerTask('docore', ['copycore','uglify:core']);  
 }
