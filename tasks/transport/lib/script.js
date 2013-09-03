@@ -50,6 +50,8 @@ exports.init = function(grunt) {
   function resetDeps() {
     _deps = [];
   };
+
+  var _globalDeps = {};
   
   /*
    * 取得当前文件所有的依赖
@@ -57,26 +59,38 @@ exports.init = function(grunt) {
    */
   function relativeDependencies(absolute_id, options) {
     // console.log(absolute_id);
+    var _fileDeps = [];
+
+    if (_globalDeps[absolute_id]) {
+      _fileDeps = _globalDeps[absolute_id];
+    }else{
+      _fileDeps = __getDepsById(absolute_id);
+      _fileDeps.forEach(function(id) {
+        var _dps = relativeDependencies(id, options);
+        _fileDeps = grunt.util._.union(_fileDeps, _dps);
+      });
+    }
     
-    if (!grunt.file.exists(absolute_id)) {
+    // set global
+    _globalDeps[absolute_id] = _fileDeps;
+    return _fileDeps;
+  }
+
+  function __getDepsById(_id) {
+    var _dps = [];
+    if (!grunt.file.exists(_id)) {
       grunt.log.error('file: '+ absolute_id + ' is not\'t exist');
       return [];
     }
-    var data = grunt.file.read(absolute_id);
+    var data = grunt.file.read(_id);
     var parsed = ast.parseFirst(data);
-    console.log(absolute_id);
-    parsed.dependencies.forEach(function(id) {
-      id = util.transformId(id, absolute_id);
-
-      // 如果已经处理过的文件, 不重复计算
-      if(_deps.indexOf(id) === -1) {
-        _deps.push(id);
-        relativeDependencies(id, options);
-      }
-      return;
+    _dps = parsed.dependencies;
+    // format absolute id
+    _dps = grunt.util._.map(_dps, function(id) {
+      return util.transformId(id, _id);
     });
-    return _deps;
-  }
+    return _dps;
+  };
 
   return exports;
 };

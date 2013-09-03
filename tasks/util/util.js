@@ -86,5 +86,16 @@ exports.init = function(grunt) {
     return id;
   };
 
-	return exports;
-}
+  exports.configEqual = function(o1, o2) {
+    var tag = !0;
+    _.each(o1, function(obj, key){
+      var obj2 = o2[key];
+      if (_.difference(obj, obj2) == []){
+        tag = !1
+      }
+    });
+    return tag
+  }
+
+  	return exports;
+  }
