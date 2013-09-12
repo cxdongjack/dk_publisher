@@ -84,7 +84,7 @@ module.exports = function(grunt) {
     },
     clean : {
       before : {
-        src : ['<%= base %>/debug','<%= base %>/dist']
+        src : ['<%= base %>/debug','<%= base %>/dist', '<%= base %>/core']
       },
       after : {
         src : ['<%= base %>/_build','<%= base %>/_core']
