@@ -4,13 +4,20 @@ var program = require('commander');
 
 program
   .option('-c, --core', 'only press the core.js')
+  .option('-s, --single <js>', 'only press the js in the target directory')
   .parse(process.argv);
 
 // args
 var tasks = [], options = {};
 
+// docore task
 if(program.core) {
   tasks.push('docore');
+};
+// single task
+if(program.single) {
+  tasks.push('single');
+  options['target'] = program.single;
 };
 console.log('----- run ------');
 require('../run.js').run(tasks, options);
