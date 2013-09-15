@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+
+program
+  .option('-c, --core', 'only press the core.js')
+  .parse(process.argv);
+
+// args
+var tasks = [], options = {};
+
+if(program.core) {
+  tasks.push('docore');
+};
+console.log('----- run ------');
+require('../run.js').run(tasks, options);
+console.log('----- done ------');

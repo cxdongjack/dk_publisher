@@ -10,6 +10,7 @@
     "grunt" : "0.4.1",
     "cmd-util": "~0.3.4",
     "uglify-js": "~2.2.5",
+    "commander" : "~2.0.0",
     "grunt-contrib-clean": "~0.4.0"
   },
   "repository": {
@@ -25,5 +26,5 @@
     "module",
     "ast"
   ],
-  "readmeFilename": "README.md",
+  "readmeFilename": "README.md"
 }
