@@ -66,12 +66,18 @@ module.exports = function(grunt) {
 
   function getCoreList(_all, _include, _exclude) {
     var _keys = [];
+    var _config = util.getConfig();
     _.each(_all,function(_itm, _id) {if(_itm >= 2) _keys.push(_id)});
 
     _include = _include.map(function(_id){ return util.transformId(_id)});
     _exclude = _exclude.map(function(_id){ return util.transformId(_id)});
-    _keys = _.union(_keys, _include);
-    _keys = _.difference(_keys, _exclude);
+    _includeDps = _include.map(function(_id){ return _config[_id] });
+    _excludeDps = _exclude.map(function(_id){ return _config[_id] });
+    _ins = _.union(_include, _.flatten(_includeDps));
+    _exs = _.union(_exclude, _.flatten(_excludeDps));
+
+    _keys = _.union(_keys, _ins);
+    _keys = _.difference(_keys, _exs);
 
     return _keys;
   };

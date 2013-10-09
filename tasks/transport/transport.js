@@ -4,6 +4,8 @@ module.exports = function(grunt) {
   var ast = cmd.ast;
   var util = require('../util/util.js').init(grunt);
   var iduri = cmd.iduri;
+  var _ = grunt.util._;
+  var pkg = grunt.config.get('pkg');
 
   var text = require('./lib/text').init(grunt);
   var script = require('./lib/script').init(grunt);
@@ -43,7 +45,7 @@ module.exports = function(grunt) {
     });
 
     // 分析当前目录(base指定或Gruntfile.js's dirname)的下的配置文件（包含paths, vars等）
-    options.pkg = grunt.config.get('pkg');
+    options.pkg = pkg;
 
     if (options.process === true) {
       options.process = {};
@@ -56,6 +58,7 @@ module.exports = function(grunt) {
     } 
 
 
+    // target 
     this.files.forEach(function(fileObj) {
       // 由于src为Array, 因此这里forEach一下, 此处src的长度为1
       // 因为设置files的属性里面有expanded, 因此所有文件会被展开,故src长度为1
@@ -63,6 +66,13 @@ module.exports = function(grunt) {
         transportFile(fpath, fileObj, options);
       });
     });
+    // include and exclude
+    var _include = (pkg.include || []).map(function(_id){ return util.transformId(_id)});
+    var _exclude = (pkg.exclude || []).map(function(_id){ return util.transformId(_id)});
+    _.union(_include, _exclude).forEach(function(fpath) {
+      transportFile(fpath, {}, options);
+    });
+
     // 持久化
     util.setConfig(_config);
   }
