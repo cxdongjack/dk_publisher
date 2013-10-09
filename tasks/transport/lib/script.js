@@ -14,8 +14,7 @@ exports.init = function(grunt) {
     // 如果被转换的文件有id, 则认为已经完成了transport
     if (ast.parseFirst(astCache).id) {
       grunt.log.warn('found id in "' + fileObj.src + '"');
-      grunt.file.write(fileObj.dest, data);
-      return;
+      return ast.parseFirst(astCache).dependencies;
     }
 
     // 递归计算当前文件的所有依赖文件, 所有依赖以id的形式存在

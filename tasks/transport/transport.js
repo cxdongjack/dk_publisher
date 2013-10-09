@@ -56,7 +56,6 @@ module.exports = function(grunt) {
     } 
 
 
-    var fname, destfile;
     this.files.forEach(function(fileObj) {
       // 由于src为Array, 因此这里forEach一下, 此处src的长度为1
       // 因为设置files的属性里面有expanded, 因此所有文件会被展开,故src长度为1
@@ -71,26 +70,21 @@ module.exports = function(grunt) {
   function transportFile(fpath, fileObj, options){
     // 获取文件名作为生成id的参数
     if (fileObj.cwd) {
-      // not expanded
-      fname = fpath;
       fpath = path.join(fileObj.cwd, fpath);
-    } else {
-      fname = path.relative(fileObj.orig && fileObj.orig.cwd || '', fpath);
-    }
+    } 
     if (grunt.file.isDir(fpath)) {
       grunt.file.mkdir(fpath);
       return;
     }
-    // 取得目标文件的地址, 用join主要是规范化地址
-    destfile = path.join(fileObj.dest);
 
     // 选取相应的parser
     var extname = path.extname(fpath);
     var fileparsers = options.parsers[extname];
     if (!fileparsers || fileparsers.length === 0) {
-      grunt.file.copy(fpath, destfile);
+      grunt.log.writeln(fpath + ' has not the fileparsers');
       return;
     }
+
     if (!Array.isArray(fileparsers)) {
       fileparsers = [fileparsers];
     }
@@ -106,8 +100,6 @@ module.exports = function(grunt) {
       var _deps = fn({
         src: fpath,
         srcData: srcData,
-        name: fname,
-        dest: destfile
       }, options);
       _config[fpath] = _deps;
     });

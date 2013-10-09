@@ -27,7 +27,7 @@ exports.init = function(grunt) {
   exports.getConfig = function() {
     var _path = pkg.prefix + '/core/config';
     if (!grunt.file.exists(_path)) {
-      grunt.log.warn('core.list not exist! Are you sure?');
+      grunt.log.warn('config not exist! Are you sure?');
       return {};
     }
     var _pkg = grunt.file.readJSON(pkg.prefix + '/core/config');
