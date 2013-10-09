@@ -4,7 +4,7 @@ exports.init = function(grunt) {
   var path = require('path');
 
 	exports.setCoreList = function(_list) {
-	  grunt.file.write(pkg.prefix + '/core/core.list', JSON.stringify({list:_list}));
+	  grunt.file.write(pkg.prefix + '/core/core.list', JSON.stringify({list:_list}, 0, 2));
 	};
 
   exports.getCoreList = function(_prefix) {
@@ -21,7 +21,7 @@ exports.init = function(grunt) {
   exports.setConfig = function(_obj) {
     var _orig = exports.getConfig();
     grunt.util._.extend(_orig, _obj);
-    grunt.file.write(pkg.prefix + '/core/config', JSON.stringify(_orig));
+    grunt.file.write(pkg.prefix + '/core/config', JSON.stringify(_orig, 0, 2));
   };
 
   exports.getConfig = function() {
