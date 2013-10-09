@@ -3251,10 +3251,3 @@ define("static/widget/util.js", [], function(require, exports) {
         return min + Math.round(Math.random() * (max - min));
     };
 });
-define("static/widget/math.js", [], function(require) {
-    return {
-        plus: function(a, b) {
-            return a + b;
-        }
-    };
-});
