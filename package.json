@@ -11,10 +11,12 @@
     "cmd-util": "~0.3.4",
     "uglify-js": "~2.2.5",
     "commander" : "~2.0.0",
-    "grunt-contrib-clean": "~0.4.0"
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-uglify": "~0.2.0"
   },
   "bin" : {
-    "dk" : "bin/dk"
+    "dk" : "bin/dk",
+    "dk-press" : "bin/dk-press"
   },
   "repository": {
     "type": "git",
