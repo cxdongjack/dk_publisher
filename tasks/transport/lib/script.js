@@ -78,11 +78,12 @@ exports.init = function(grunt) {
   function __getDepsById(_id) {
     var _dps = [];
     if (!grunt.file.exists(_id)) {
-      grunt.log.error('file: '+ absolute_id + ' is not\'t exist');
+      grunt.log.error('file: '+ _id + ' is not\'t exist');
       return [];
     }
     var data = grunt.file.read(_id);
     var parsed = ast.parseFirst(data);
+    parsed = parsed || {dependencies:[]};
     _dps = parsed.dependencies;
     // format absolute id
     _dps = grunt.util._.map(_dps, function(id) {
