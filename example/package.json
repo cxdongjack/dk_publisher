@@ -3,6 +3,7 @@
   "target" : "page",
   
   "paths" : {
+    "module" : "static/module",
     "widget" : "static/widget",
     "page" : "static/page"
   },
@@ -14,5 +15,6 @@
     "ht" : "handle-text"
   },
   "include" : ["widget/main.js", "widget/math.js"],
-  "exclude" : ["widget/main.js"]
+  "exclude" : ["widget/main.js"],
+  "ignore" : []
 }

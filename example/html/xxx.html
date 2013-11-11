@@ -1,0 +1,14 @@
+<p id="b">1</p>
+<script>
+  var x = document.getElementById('b');
+  alert(x.innerHTML);
+
+  (function(){
+    window.setTimeout(function() {
+      var x = document.getElementById('k');
+      alert(x.innerHTML)
+    },0)
+
+  })();
+</script>
+<p id="k">k</p>

@@ -1,0 +1,13 @@
+{
+  "ignore": [
+    "static/module/frame.html",
+    "html/module/m1.html"
+  ],
+  "map": {
+    "html/index.html": [
+      "m1.js",
+      "static/page/act_hello.js"
+    ],
+    "html/xxx.html": []
+  }
+}

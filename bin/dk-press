@@ -5,6 +5,7 @@ var program = require('commander');
 program
   .option('-c, --core', 'only press the core.js')
   .option('-s, --single <js>', 'only press the js in the target directory')
+  .option('-h, --html', 'parse html')
   .parse(process.argv);
 
 // args
@@ -19,6 +20,11 @@ if(program.single) {
   tasks.push('single');
   options['target'] = program.single;
 };
+// parse html
+if(program.html) {
+  tasks.push('html');
+}
+
 console.log('----- run ------');
 require('../run.js').run(tasks, options);
 console.log('----- done ------');

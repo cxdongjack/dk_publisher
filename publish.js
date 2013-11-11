@@ -29,6 +29,16 @@ module.exports = function(grunt) {
           }]
       }
     },
+    html : {
+      target : {
+          files: [{
+              expand : true,
+              cwd : 'html',
+              src: ['*.html'],
+              dest: '_html',
+          }]
+      }
+    },
     core : {
       options : {
           include : '<%= pkg.core %>'
@@ -97,6 +107,7 @@ module.exports = function(grunt) {
   process.chdir(__dirname);
 
   grunt.loadTasks('tasks/transport');
+  grunt.loadTasks('tasks/html');
   grunt.loadTasks('tasks/core');
   grunt.loadTasks('tasks/concat');
   grunt.loadTasks('tasks/page');
