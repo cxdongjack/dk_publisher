@@ -149,6 +149,7 @@ exports.init = function(grunt) {
         /seajs.use\(\'(.*?)\'/.test(_statement)
         return util.transformId(RegExp.$1);
       });
+      _dps = _.union(_dps);
       _result.map[_result.id] = _dps;
     }
   })();

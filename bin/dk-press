@@ -6,6 +6,7 @@ program
   .option('-c, --core', 'only press the core.js')
   .option('-s, --single <js>', 'only press the js in the target directory')
   .option('-h, --html', 'parse html')
+  .option('-t, --task <task>', 'excute task')
   .parse(process.argv);
 
 // args
@@ -23,6 +24,10 @@ if(program.single) {
 // parse html
 if(program.html) {
   tasks.push('html');
+}
+// task
+if(program.task) {
+  tasks.push(program.task);
 }
 
 console.log('----- run ------');

@@ -51,6 +51,23 @@ module.exports = function(grunt) {
       options.process = {};
     }
 
+    var _html = grunt.file.readJSON('package/html');
+    var _maps = _.reduce(_html.map, function(memo, itm) {
+      memo.push(itm);
+      return memo;
+    }, []);
+    var _include = (pkg.include || []).map(function(_id){ return [util.transformId(_id)] });
+    var _exclude = (pkg.exclude || []).map(function(_id){ return [util.transformId(_id)] });
+    _maps = _.union(_maps, _include, _exclude);
+
+    _.each(_.flatten(_maps), function(fpath) {
+      transportFile(fpath, {}, options);
+    });
+
+    var _ret = formatMap(_maps);
+    grunt.file.write('package/transport', JSON.stringify(_ret, 0, 2));
+    return;
+
 
     if(!this.files.length){
       grunt.fail.fatal('transport files not exists');
@@ -66,6 +83,7 @@ module.exports = function(grunt) {
         transportFile(fpath, fileObj, options);
       });
     });
+
     // include and exclude
     var _include = (pkg.include || []).map(function(_id){ return util.transformId(_id)});
     var _exclude = (pkg.exclude || []).map(function(_id){ return util.transformId(_id)});
@@ -114,6 +132,27 @@ module.exports = function(grunt) {
       _config[fpath] = _deps;
     });
   };
+
+  function formatMap(_map) {
+    var _mapping = {};
+    _.each(_map, function(_scripts) {
+
+      var _itm = _.find(_scripts, function(_id) {
+        return _id.indexOf('act_') !== -1;
+      });
+
+      _itm = _itm || _map[0];
+
+      if(!_itm) grunt.log.error('get error in formatMap', _map).writeln();
+
+      var _dps = _.reduce(_scripts, function(memo, num){ 
+        return _.union(memo, num); 
+      }, []);
+
+      _mapping[_itm] = _dps;
+    })
+    return _mapping;
+  }
 
   grunt.registerMultiTask('transport', 'Transport everything into cmd.', doTask);
 };
