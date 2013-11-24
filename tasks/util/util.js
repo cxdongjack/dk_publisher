@@ -3,34 +3,43 @@ exports.init = function(grunt) {
   var pkg = grunt.config.get('pkg');
   var path = require('path');
 
+  exports.getPrefix = function() {
+    return pkg.debug ? '_debug_' : '_dist_';
+  }
+
 	exports.setCoreList = function(_list) {
-	  grunt.file.write(pkg.prefix + '/core/core.list', JSON.stringify({list:_list}, 0, 2));
+    // var _path = pkg.prefix + '/core/core.list';
+    var _path = 'package/core_list';
+	  grunt.file.write(_path, JSON.stringify({list:_list}, 0, 2));
 	};
 
   exports.getCoreList = function(_prefix) {
-    _prefix = _prefix || pkg.prefix;
-    var _path = _prefix + '/core/core.list';
+    // _prefix = _prefix || pkg.prefix;
+    // var _path = _prefix + '/core/core.list';
+    var _path = 'package/core_list';
     if (!grunt.file.exists(_path)) {
       grunt.log.warn('core.list not exist! Are you sure?');
       return [];
     }
-    var _pkg = grunt.file.readJSON(_prefix + '/core/core.list');
+    var _pkg = grunt.file.readJSON(_path);
     return _pkg.list || [];
   };
 
   exports.setConfig = function(_obj) {
+    var _path = 'package/transport';
     var _orig = exports.getConfig();
     grunt.util._.extend(_orig, _obj);
-    grunt.file.write(pkg.prefix + '/core/config', JSON.stringify(_orig, 0, 2));
+    grunt.file.write(_path, JSON.stringify(_orig, 0, 2));
   };
 
   exports.getConfig = function() {
-    var _path = pkg.prefix + '/core/config';
+    // var _path = pkg.prefix + '/core/config';
+    var _path = 'package/transport';
     if (!grunt.file.exists(_path)) {
       grunt.log.warn('config not exist! Are you sure?');
       return {};
     }
-    var _pkg = grunt.file.readJSON(pkg.prefix + '/core/config');
+    var _pkg = grunt.file.readJSON(_path);
     return _pkg || {};
   };
 

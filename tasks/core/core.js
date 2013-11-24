@@ -117,13 +117,14 @@ module.exports = function(grunt) {
     // 持久化写入core.list
     util.setCoreList(_keys);
 
-    grunt.log.ok('core_list :');
+    grunt.log.ok('core_list :', _keys);
     console.log(util.getCoreList());
 
+    doCopyTask.call(this, _keys);
   }
   grunt.registerMultiTask('core', 'get repeat modules.', doTask)
 
-  function doCopyTask () {
+  function doCopyTask (_list) {
     var options = this.options({
           separator: grunt.util.linefeed,
           uglify: {
@@ -131,9 +132,10 @@ module.exports = function(grunt) {
             comments: true
           }
         }),
-        _list = util.getCoreList(),
-        dest_prefix = pkg.prefix + '/core/',
-        _dest = path.join(dest_prefix || '', 'core-debug.js');
+        _list = _list || util.getCoreList(),
+        _dest = util.getPrefix() + 'core.js';
+        // dest_prefix = pkg.prefix + '/core/',
+        // _dest = path.join(dest_prefix || '', 'core-debug.js');
         
     // _.each(_list, function(fpath){
     //   var _id = fpath ,

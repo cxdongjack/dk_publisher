@@ -33,7 +33,7 @@ exports.init = function(grunt) {
       _reg31 = /<\/textarea>/i;
 
   exports.parse = function(_opt) {
-    console.log('\nparse', _opt.src, '-->' ,_opt.dest)
+    console.log('\nparse', _opt.src)
 
 
     var _root = _.pick(_opt, 'src', 'dest');
@@ -72,15 +72,15 @@ exports.init = function(grunt) {
     // replace the tp_html with the remote file
     __doMergeTemplate(_result);
 
-    // save the file 
-    grunt.file.write(_root.dest, _result.source);
 
     // parse html-js map, save in result.map
     __doParseSeajs(_result);
 
-    console.log(_result['tp_html'])
-    console.log(_result.source);
-    console.log(_result.map);
+
+    // console.log(_result['tp_html'])
+    // console.log(_result.source);
+    // console.log(_result.map);
+
     // if(_result['tp_html']) {
     //   console.log(_result['tp_html'][0])
     //   console.log(grunt.file.read(_result['tp_html'][0]));
@@ -141,13 +141,26 @@ exports.init = function(grunt) {
   })();
 
   var __doParseSeajs = (function() {
+    var _stat = '/*<--js:%s-->*/';
     var _reg = /seajs.use\(\'(.*?)\'/gi;
+    var _reg1 = /\<script src\=.*sea.*\.js.*\<\/script>/gi;
     return function(_result) {
+      var _dps = [];
       var _source = _result.source;
       var _paths = _source.match(_reg);
-      var _dps = _.map(_paths, function(_statement) {
-        /seajs.use\(\'(.*?)\'/.test(_statement)
-        return util.transformId(RegExp.$1);
+      // insert /*<--js:<js_uid>-->*/ before seajs.use()
+      _result.source = _source.replace(_reg, function(_sea, _id) {
+        var _uid = util.transformId(_id);
+        _dps.push(_uid);
+        return sys_util.format(_stat, _uid) + _sea;
+      });
+
+      // insert /*<--js:global-core.js-->*/ after <script src=seajs.js></script>
+      _result.source = _result.source.replace(_reg1, function(_match) {
+        _result.hasCore = !0;
+        // var _inject = sys_util.format(_stat, 'core.js');
+        var _inject = sys_util.format('<script src="%s"></script>', pkg.core_url + util.getPrefix() + 'core.js');
+        return _match + '\n' + _inject;
       });
       _dps = _.union(_dps);
       _result.map[_result.id] = _dps;

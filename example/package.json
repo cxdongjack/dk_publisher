@@ -1,6 +1,7 @@
 {
   "prefix": "static",
   "target" : "page",
+  "core_url" : "static/libs/",
   
   "paths" : {
     "module" : "static/module",
@@ -14,7 +15,7 @@
   "vars" : {
     "ht" : "handle-text"
   },
-  "include" : ["widget/main.js", "widget/math.js"],
+  "include" : ["widget/main.js", "widget/math.js", "static/libs/gallery/jquery/1.8.3/jquery.js"],
   "exclude" : ["widget/main.js"],
   "ignore" : []
 }

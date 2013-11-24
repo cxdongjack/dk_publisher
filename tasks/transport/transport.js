@@ -51,11 +51,15 @@ module.exports = function(grunt) {
       options.process = {};
     }
 
-    var _html = grunt.file.readJSON('package/html');
-    var _maps = _.reduce(_html.map, function(memo, itm) {
-      memo.push(itm);
-      return memo;
-    }, []);
+    // var _html = grunt.file.readJSON('package/html');
+    // var _maps = _.reduce(_html.map, function(memo, itm) {
+    //   memo.push(itm);
+    //   return memo;
+    // }, []);
+
+    var _jsMaps = grunt.file.readJSON('package/js-html');
+    var _maps = _.keys(_jsMaps);
+
     var _include = (pkg.include || []).map(function(_id){ return [util.transformId(_id)] });
     var _exclude = (pkg.exclude || []).map(function(_id){ return [util.transformId(_id)] });
     _maps = _.union(_maps, _include, _exclude);
@@ -64,8 +68,8 @@ module.exports = function(grunt) {
       transportFile(fpath, {}, options);
     });
 
-    var _ret = formatMap(_maps);
-    grunt.file.write('package/transport', JSON.stringify(_ret, 0, 2));
+    // var _ret = formatMap(_maps);
+    grunt.file.write('package/transport', JSON.stringify(_config, 0, 2));
     return;
 
 

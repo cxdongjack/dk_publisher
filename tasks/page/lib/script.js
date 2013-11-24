@@ -89,6 +89,7 @@ exports.init = function(grunt) {
 
     // 计算过滤后的依赖
     var _deps = rejectDeps(meta.dependencies, options.without);
+    console.log(meta.dependencies, options.without, _deps);
     
     // 合并所有依赖文件的内容
     var rv = _deps.map(function(dep) {

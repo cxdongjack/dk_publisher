@@ -58,6 +58,46 @@ module.exports = function(grunt) {
     var _config = util.getConfig();
     options.config = _config;
 
+    var _files = _.keys(_config);
+
+    _.each(_files, function(filepath) {
+      // reset records, 设置了全局的参数, 设置在命令行参数的作用域中
+      grunt.option('concat-records', []);
+
+      var extname = path.extname(filepath);
+      var processor = options.processors[extname] || processors[extname];
+      var src = '';
+      if (!processor) {
+        src = grunt.file.read(filepath);
+      }
+      src = processor({src: filepath}, options);
+
+      // 移除所有deps, 打包后不需要了
+      src = ast.modify(src, {
+        dependencies: function(v) {
+          return null;
+        }
+      }).print_to_string(options.uglify);
+
+      // ensure a new line at the end of file
+      src += '\n';
+
+      // Write the destination file.
+      // grunt.file.write(f.dest, src);
+      var _dest = util.getPrefix() + filepath;
+      grunt.file.write(_dest, src);
+
+      // Print a success message.
+      grunt.log.writeln('File "' + _dest + '" created.');
+    }, this);
+
+
+    return;
+
+    // config
+    var _config = util.getConfig();
+    options.config = _config;
+
     var _files = getFiles(options.target, options.config);
 
     _files.forEach(function(f) {
@@ -94,7 +134,9 @@ module.exports = function(grunt) {
       src += '\n';
 
       // Write the destination file.
-      grunt.file.write(f.dest, src);
+      // grunt.file.write(f.dest, src);
+      console.log('------', f.src[0])
+      grunt.file.write(util.getPrefix() + f.src[0], src);
 
       // Print a success message.
       grunt.log.writeln('File "' + f.dest + '" created.');

@@ -34,7 +34,7 @@ module.exports = function(grunt) {
           files: [{
               expand : true,
               cwd : 'html',
-              src: ['*.html'],
+              src: ['**/*.html'],
               dest: '_html',
           }]
       }
@@ -124,4 +124,6 @@ module.exports = function(grunt) {
   // grunt.registerTask('single', ['transport','concat:page','uglify:page','clean:after']);  
   grunt.registerTask('single', ['transport','page','uglify:page']);  
   grunt.registerTask('docore', ['copycore','uglify:core']);  
+  grunt.registerTask('new', ['html','transport', 'core', 'page', 'injectJavascript']);  
+
 }

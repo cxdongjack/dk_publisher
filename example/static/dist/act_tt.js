@@ -1,1 +1,0 @@
-define("static/page/act_tt.js",[],function(e){var t=e("jquery"),n=e("widget/hello");t(document).keypress(function(e){32==e.which&&new n})});
