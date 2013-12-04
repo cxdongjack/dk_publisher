@@ -1,0 +1,51 @@
+<div id="template-box">
+</div>
+</div>
+<div style="text-align:center;font-size:48px;color:#999;"> Press the space key !</div>
+<div style="display:none;" id="umi://static/module/frame.html">
+<textarea name="js">
+alert('this is module 1');
+</textarea>
+</div>
+<div style="display:none;" id="umi://html/xxx.html">
+<p id="b">1</p>
+<script>
+  var x = document.getElementById('b');
+  alert(x.innerHTML);
+
+  (function(){
+    window.setTimeout(function() {
+      var x = document.getElementById('k');
+      alert(x.innerHTML)
+    },0)
+
+  })();
+</script>
+<p id="k">k</p>
+
+</div>
+<script src="static/libs/seajs/2.0.0/sea-debug.js"></script>
+<script>
+    seajs.config({
+        base : './',
+        alias:{
+            "jquery" : "static/libs/gallery/jquery/1.8.3/jquery.js",
+            "util" : "static/widget/util"
+        },
+        paths : {
+          'widget' : 'static/widget',
+          'page' : 'static/page'
+        },
+        vars : {
+          "ht" : "handle-text"
+        },
+        preload: [
+          location.search.indexOf("debug") === -1 ? '' : 'static/core/core.js' 
+        ],
+        map: [
+         location.search.indexOf("debug") === -1 ? [] : [ /page\//i, 'dist/' ]
+        ]
+    })
+    define("static/page/act_hello.js",[],function(e){var t=e("jquery"),n=e("../widget/hello");t(document).keypress(function(e){32==e.which&&new n})}),define("static/widget/hello.js",[],function(e,t,n){function r(){this.render(),this.bindAction(),seajs.log("new Hello() called.")}var i=e("widget/{ht}"),o=i.random;r.prototype.render=function(){this.el=$('<div style="position:fixed;left:'+o(0,70)+"%;"+"top:"+o(10,80)+'%;">'+i("Hello SPM !")+"</div>").appendTo("body")},r.prototype.bindAction=function(){var e=this.el;setTimeout(function(){e.fadeOut()},o(500,5e3))},n.exports=r}),define("static/widget/handle-text.js",[],function(e){function t(e){for(var t=n(30,70),r=n(50,120),i="",o=0,a=e.length;a>o;o++)i+='<span style="font-size:'+n(t,r)+'px;">'+e[o]+"</span>";return i}var n=e("widget/util").random;return t.random=n,t}),define("static/widget/util.js",[],function(e,t){t.random=function(e,t){return e+Math.round(Math.random()*(t-e))}});
+seajs.use('page/act_hello');
+</script>

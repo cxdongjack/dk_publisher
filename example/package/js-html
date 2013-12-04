@@ -1,0 +1,6 @@
+{
+  "static/page/act_hello.js": [
+    "html/index.html",
+    "html/module/m1.html"
+  ]
+}

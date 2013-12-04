@@ -4,7 +4,8 @@ exports.init = function(grunt) {
   var path = require('path');
 
   exports.getPrefix = function() {
-    return pkg.debug ? '_debug_' : '_dist_';
+    var debug = grunt.option('debug_model') || pkg.debug;
+    return debug ? '_debug_' : '_dist_';
   }
 
 	exports.setCoreList = function(_list) {

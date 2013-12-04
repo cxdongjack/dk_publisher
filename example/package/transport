@@ -1,0 +1,13 @@
+{
+  "static/page/act_hello.js": [
+    "static/libs/gallery/jquery/1.8.3/jquery.js",
+    "static/widget/hello.js",
+    "static/widget/handle-text.js",
+    "static/widget/util.js"
+  ],
+  "static/widget/main.js": [
+    "static/widget/math.js"
+  ],
+  "static/widget/math.js": [],
+  "static/libs/gallery/jquery/1.8.3/jquery.js": []
+}

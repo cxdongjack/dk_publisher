@@ -1,1 +1,0 @@
-define("static/widget/math.js",[],function(){return{plus:function(t,n){return t+n}}});

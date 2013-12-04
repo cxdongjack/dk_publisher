@@ -11,7 +11,8 @@ module.exports = function(grunt) {
   var iduri = cmd.iduri;
   var _ = grunt.util._;
   var pkg = grunt.config.get('pkg');
-  
+
+  var uglify = require('../util/uglify.js').init(grunt);
   
   var processors = {
     '.js': script.jsConcat,
@@ -85,6 +86,13 @@ module.exports = function(grunt) {
       // Write the destination file.
       // grunt.file.write(f.dest, src);
       var _dest = util.getPrefix() + filepath;
+
+      // compress and mangle
+      if(!grunt.option('debug_model')) {
+        src = uglify.minify(src);
+        src += '\n';
+      }
+
       grunt.file.write(_dest, src);
 
       // Print a success message.

@@ -144,6 +144,7 @@ exports.init = function(grunt) {
     var _stat = '/*<--js:%s-->*/';
     var _reg = /seajs.use\(\'(.*?)\'/gi;
     var _reg1 = /\<script src\=.*sea.*\.js.*\<\/script>/gi;
+    var _reg_header = /<\/head>/gi;
     return function(_result) {
       var _dps = [];
       var _source = _result.source;
@@ -156,11 +157,11 @@ exports.init = function(grunt) {
       });
 
       // insert /*<--js:global-core.js-->*/ after <script src=seajs.js></script>
-      _result.source = _result.source.replace(_reg1, function(_match) {
+      _result.source = _result.source.replace(_reg_header, function(_match) {
         _result.hasCore = !0;
         // var _inject = sys_util.format(_stat, 'core.js');
         var _inject = sys_util.format('<script src="%s"></script>', pkg.core_url + util.getPrefix() + 'core.js');
-        return _match + '\n' + _inject;
+        return _inject + '\n' + _match;
       });
       _dps = _.union(_dps);
       _result.map[_result.id] = _dps;

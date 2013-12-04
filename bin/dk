@@ -9,7 +9,8 @@ var program = require('commander');
 program
   .usage('is the package of the front-end publisher kits')
   .version('0.0.1')
-  .command('press', 'press the project, please run this cammand on the top of project')
+  .command('press', 'press the project with js, please run this cammand on the top of project')
+  .command('html', 'press the project with html, please run this cammand on the top of project')
   .parse(process.argv);
 
 if (!program.args.length) program.help();

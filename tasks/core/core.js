@@ -6,6 +6,7 @@ module.exports = function(grunt) {
   var util = require('../util/util.js').init(grunt);
   var _ = grunt.util._;
   var pkg = grunt.config.get('pkg');
+  var uglify = require('../util/uglify.js').init(grunt);
 
   // function getDependencies(fileObj, filepath) {
   //   // 一旦文件不存在， 则程序跳出，因为此处不应该出现文件不存在
@@ -154,6 +155,12 @@ module.exports = function(grunt) {
       var src = ast.modify(grunt.file.read(fpath), {id: _id}).print_to_string(options.uglify);
       return src;
     }).join(grunt.util.normalizelf(options.separator));
+
+    // compress and mangle
+    if(!grunt.option('debug_model')) {
+      rv = uglify.minify(rv);
+      rv += '\n';
+    }
 
     grunt.file.write(_dest, rv);
 

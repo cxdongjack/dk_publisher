@@ -8,6 +8,7 @@ module.exports = function(grunt) {
 
   var parser = require('./lib/parser').init(grunt);
   var util = require('../util/util.js').init(grunt);
+  var uglify = require('../util/uglify.js').init(grunt);
 
   function doTask(){
     var options = this.options({
@@ -20,6 +21,10 @@ module.exports = function(grunt) {
       // 因为设置files的属性里面有expanded, 因此所有文件会被展开,故src长度为1
       transportFile(fileObj.src[0], fileObj.dest, options);
     });
+    // 解析当前目录下的app.html
+    if (!this.files.length) {
+      transportFile('app.html', util.getPrefix() + 'app.html', options);
+    }
 
     // 清除ignore的文件, 因为有可能会产生无效解析
     _.each(options.ignore, function(_id) {
@@ -84,6 +89,7 @@ module.exports = function(grunt) {
 
     _.each(_jsMaps, function(_htmls, _id) {
       var data = grunt.file.read(util.getPrefix() + _id);
+
       console.log(data.length, _htmls, _id)
       if(data.length > MAX_JS_INLINE_SIZE) return;
 
