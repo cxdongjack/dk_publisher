@@ -12,7 +12,7 @@ exports.init = function(grunt) {
     var astCache = ast.getAst(data);
 
     // 如果被转换的文件有id, 则认为已经完成了transport
-    if (ast.parseFirst(astCache).id) {
+    if (ast.parseFirst(astCache) && ast.parseFirst(astCache).id) {
       grunt.log.warn('found id in "' + fileObj.src + '"');
       return ast.parseFirst(astCache).dependencies;
     }

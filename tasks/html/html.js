@@ -97,7 +97,9 @@ module.exports = function(grunt) {
       _.each(_htmls, function(_src) {
         _src = util.getPrefix() + _src;
         var _cnt = grunt.file.read(_src);
-        _cnt = _cnt.replace(sys_util.format(_stat, _id), data);
+        // 其实就是replace, 为了规避replace, $&问题....
+        _cnt = _cnt.split(sys_util.format(_stat, _id)).join(data);
+        console.log(_id, _cnt)
         grunt.file.write(_src, _cnt);
       });
     })

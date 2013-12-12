@@ -92,7 +92,7 @@ exports.init = function(grunt) {
     id = parseVars(id, pkg);
 
     // 然后加上文件后缀.js
-    if(!(/\.js|\.html$/.test(id))) id += '.js';
+    if(!(/\.js|\.html|\.tnd$/.test(id))) id += '.js';
     return id;
   };
 

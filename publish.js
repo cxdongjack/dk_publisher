@@ -37,6 +37,14 @@ module.exports = function(grunt) {
               src: ['**/*.html'],
               dest: '_html',
           }]
+      },
+      tpl : {
+          files: [{
+              expand : true,
+              cwd : 'template',
+              src: ['**/*.tnd'],
+              dest: '_template',
+          }]
       }
     },
     core : {
@@ -125,5 +133,5 @@ module.exports = function(grunt) {
   grunt.registerTask('single', ['transport','page','uglify:page']);  
   grunt.registerTask('docore', ['copycore','uglify:core']);  
   grunt.registerTask('new', ['html','transport', 'core', 'page', 'injectJavascript']);  
-
+  grunt.registerTask('html_tpl', ['html:tpl','transport', 'core', 'page', 'injectJavascript']);  
 }

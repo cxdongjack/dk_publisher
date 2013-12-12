@@ -5,6 +5,7 @@ program
   // .option('-h, --html', 'parse html')
   .option('-d, --debug', 'press with debug modal')
   .option('-t, --task <task>', 'excute task')
+  .option('-p, --tpl', 'excute task with tpl')
   .parse(process.argv);
 
 // args
@@ -18,9 +19,15 @@ if(program.debug) {
 // task
 if(program.task) {
   tasks.push(program.task);
+} else {
+  if(program.tpl) {
+    tasks.push('html_tpl');
+  }else{
+    tasks.push('new');
+  }
 }
 
-tasks.push('new');
+
 console.log('----- run ------');
 require('../run.js').run(tasks, options);
 console.log('----- done ------');
