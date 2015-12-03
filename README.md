@@ -1,5 +1,8 @@
 # dk_publisher
   为seajs项目的所有脚本提供一键打包
+  
+## 命令行安装:
+  sudo npm install -g git+https://github.com/cxdongjack/dk_publisher.git
 
 ## 常用命令:
 进入到项目package.json目录下, 运行以下命令
